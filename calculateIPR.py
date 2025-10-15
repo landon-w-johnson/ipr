@@ -6,8 +6,8 @@ import os
 
 
 
-##### electrons_per_orbital = 1 if LNONCOLLINEAR=.FALSE. #####
-##### electrons_per_orbital = 2 if LNONCOLLINEAR=.TRUE.  #####
+##### electrons_per_orbital = 1 if LNONCOLLINEAR = .FALSE. #####
+##### electrons_per_orbital = 2 if LNONCOLLINEAR = .TRUE.  #####
 electrons_per_orbital = 2
 
 
@@ -23,9 +23,23 @@ parchg_list.sort()
 
 
 
+
+
 header_file = open(parchg_list[0], 'r')
 first_parchg = header_file.readlines()
 header_file.close()
+first_blank_line = False
+end_of_first_block = 0
+for i in range(1,len(first_parchg)):
+    if re.search('[0-9a-zA-Z]', first_parchg[i]) == None:
+        if first_blank_line:
+            end_of_first_block = i
+            break
+        first_blank_line = True
+if end_of_first_block == 0:
+    end_of_first_block = len(first_parchg)
+
+
 
 
 
@@ -40,10 +54,9 @@ v_cell = np.dot(a, b_cross_c)
 
 
 
-parchg_len = len(first_parchg)
 header_skip = 0
-global cell_size
-for i in range(parchg_len):
+cell_size = ['', '', '']
+for i in range(end_of_first_block):
     if re.search('[a-zA-Z0-9]', first_parchg[i]) == None:
         header_skip = i+2
         cell_size = re.split(' +', first_parchg[i+1].lstrip().rstrip())
@@ -65,7 +78,7 @@ for parchg in parchg_list:
     parchg_lines = parchg_file.readlines()
     parchg_file.close()
     ipr = np.zeros(1, dtype=np.float128)
-    for i in range(header_skip, parchg_len-1):
+    for i in range(header_skip, end_of_first_block):
         tmp_list = re.split(' +', parchg_lines[i].lstrip().rstrip())
         tmp_array = np.array(tmp_list, dtype=np.float128)
         tmp_array = np.divide(tmp_array, electrons_per_orbital*v_cell)
