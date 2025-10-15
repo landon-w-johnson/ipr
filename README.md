@@ -14,6 +14,4 @@
 
 # Known Bugs
 
-1. This is not using the scaling factor, so any scaling factor other than 1 will cause problems.
-
 1. All of the `PARCHG` files in your working directory **must** be from the same system. The script only reads the number of data entries from the first `PARCHG` file it finds, so any mismatches will cause it to crash or give incomplete data.
