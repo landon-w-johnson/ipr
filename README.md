@@ -15,3 +15,5 @@
 # Known Bugs
 
 1. This is not using the scaling factor, so any scaling factor other than 1 will cause problems.
+
+1. This will not work for spin-polarized or noncollinear spin calculations. It reads the entire length of the `PARCHG` files, not just to the end of the spin up + spin down block.
