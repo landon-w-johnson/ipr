@@ -6,6 +6,14 @@ import os
 
 
 
+##### electrons_per_orbital = 1 if LNONCOLLINEAR=.FALSE. #####
+##### electrons_per_orbital = 2 if LNONCOLLINEAR=.TRUE.  #####
+electrons_per_orbital = 2
+
+
+
+
+
 wd_contents = os.listdir()
 parchg_list = []
 for item in wd_contents:
@@ -49,8 +57,6 @@ num_cells = cell_size[0]*cell_size[1]*cell_size[2]
 
 
 ipr_list = []
-pos_ipr_list = []
-neg_ipr_list = []
 density_sum_list_pre = []
 density_sum_list_post = []
 for parchg in parchg_list:
@@ -59,28 +65,15 @@ for parchg in parchg_list:
     parchg_lines = parchg_file.readlines()
     parchg_file.close()
     ipr = np.zeros(1, dtype=np.float128)
-    neg_ipr = np.zeros(1, dtype=np.float128)
-    pos_ipr = np.zeros(1, dtype=np.float128)
     for i in range(header_skip, parchg_len-1):
         tmp_list = re.split(' +', parchg_lines[i].lstrip().rstrip())
         tmp_array = np.array(tmp_list, dtype=np.float128)
-        tmp_array = np.divide(tmp_array, v_cell)
+        tmp_array = np.divide(tmp_array, electrons_per_orbital*v_cell)
         tmp_array_sq = np.multiply(tmp_array, tmp_array)
         ipr = np.add(ipr, np.sum(tmp_array_sq))
-        for density in tmp_array:
-            if np.less(density, 0):
-                neg_ipr = np.add(neg_ipr, np.multiply(density, density))
-            else:
-                pos_ipr = np.add(pos_ipr, np.multiply(density, density))
     ipr_list.append(ipr[0])
-    neg_ipr_list.append(neg_ipr[0])
-    pos_ipr_list.append(pos_ipr[0])
 ipr_array = np.array(ipr_list)
-pos_ipr_array = np.array(pos_ipr_list)
-neg_ipr_array = np.array(neg_ipr_list)
 ipr_array = np.multiply(ipr_array, np.divide(v_cell,num_cells))
-pos_ipr_array = np.multiply(pos_ipr_array, v_cell/num_cells)
-neg_ipr_array = np.multiply(neg_ipr_array, v_cell/num_cells)
 
 
 
