@@ -6,7 +6,7 @@
 
 1. Put `calculateIPR.py` in a working directory with all of the `PARCHG` files for which you want to calculate the IPR.
 
-1. Set the variable `electrons_per_orbital` in the script `calculateIPR.py` appropriately. It should be 1 if you include the tag `LNONCOLLINEAR=.FALSE.` in your `INCAR`, or 2 otherwise.
+1. Set the variable `electrons_per_orbital` in the script `calculateIPR.py` appropriately. It should be 1 if you include the tag `LNONCOLLINEAR=.TRUE.` in your `INCAR`, or 2 otherwise.
 
 1. Run `calculateIPR.py`.
 
