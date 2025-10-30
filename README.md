@@ -1,6 +1,18 @@
+# What Does This Do?
+
+This script calculates the inverse participation ratio (IPR) of orbitals from VASP outputs. More specifically, it uses `PARCHG` files which contain the spatial distribution of electron density for a given orbital to do this. 
+
+
+
+
+
 # Requirements
 
 1. Python with NumPy
+
+
+
+
 
 # How to Use This
 
@@ -11,6 +23,10 @@
 1. Run `calculateIPR.py`.
 
 1. Your IPR values are stored in `ipr.txt`.
+
+
+
+
 
 # Known Bugs
 
